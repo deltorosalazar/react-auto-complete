@@ -18,7 +18,14 @@ function Autocomplete() {
             const filteredOptions: Array<string> = textOptions.filter((option: string) =>
                 option.toLowerCase().includes(value.toLowerCase())
             );
-            setOptions(filteredOptions);
+
+            let highlightedFilteredOptions: any = filteredOptions.map((filteredOption) => {
+                const regex = new RegExp(value, "gi");
+                const newText = filteredOption.replace(regex, '<mark class="highlight">$&</mark>');
+                return <span dangerouslySetInnerHTML={{ __html: newText }} />;
+            });
+
+            setOptions(highlightedFilteredOptions);
         } else {
             setOptions([]);
         }
